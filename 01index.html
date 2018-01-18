@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Google Chart Tools</title>
+</head>
+
+<body>
+    <h1>自動車事故に関するデータ</h1>
+    
+    <h2>交通事故発生状況</h2>
+    <div id="chart_div" style="width: 900px; height: 600px;"></div>
+
+    <script src="https://www.google.com/jsapi"></script>
+    <script>
+        google.load('visualization', '1', {
+            'packages': ['corechart'],
+            'language': 'ja'
+        });
+        google.setOnLoadCallback(drawVisualization);
+
+        function drawVisualization() {
+            var data = google.visualization.arrayToDataTable([
+                ['Year', '発生件数（百件）', '負傷者数（百人）', '死者数（人）', '人口10万人あたり死者数（人）'],
+                ['2008', 7663.94, 9457.03, 5209, 4.08],
+                ['2009', 7376.37, 9112.15, 4979, 3.90],
+                ['2010', 7259.24, 8962.97, 4948, 3.88],
+                ['2011', 6920.84, 8546.13, 4691, 3.66],
+                ['2012', 6651.57, 8253.92, 4488, 3.47],
+                ['2013', 6290.33, 7814.92, 4388, 3.44],
+                ['2014', 5738.42, 7113.74, 4113, 3.23],
+                ['2015', 5368.99, 6660.23, 4117, 3.24],
+                ['2016', 4992.01, 6188.53, 3904, 3.07],
+                ['2017', 4720.69, 5797.46, 3694, 2.91]
+            ]);
+
+            var options = {
+                title: '',
+                vAxis: {
+                    title: ''
+                },
+                hAxis: {
+                    title: 'Year'
+                },
+                seriesType: 'bars',
+                series: {
+                    3: {
+                        type: 'line'
+                    }
+                }
+            };
+
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+    <p>このグラフを見ると交通事故の発生件数は年々減少しており、それに伴って負傷者、死者の人数も減少していることが分かります。</p>
+    <p><a href="https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&toukei=00130002&bunya_l=14&tstat=000001032793&cycle=7&year=20170&month=0&result_back=1&result_page=1&second=1&second2=1" target="_blank">e-Stat　道路の交通に関する統計　交通事故死者数について</a></p>
+    
+    <h2>原付以上運転者（第１当事者）の法令違反別死亡事故件数</h2>
+    <div id="barchart_material" style="width: 900px; height: 700px;"></div>
+
+    <script src="https://www.google.com/jsapi"></script>
+    <script>
+        google.load('visualization', '1.1', {
+            'packages': ['bar'],
+            'language': 'ja'
+        });
+
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Year', '信号無視', '通行区分', '最高速度', '優先通行妨害', '歩行者妨害等', '一時不停止', '酒酔い運転', '過労運転', '運転操作不適', '漫然運転', '脇見運転', '動静不注視', '安全不確認', '安全速度', 'その他の安全運転義務違反', 'その他の違反', '違反不明'],
+                ['2008', 186, 251, 408, 147, 271, 199, 78, 27, 473, 722, 663, 153, 504, 134, 36, 430, 31],
+                ['2017', 116, 157, 149, 83, 203, 98, 16, 16, 396, 483, 340, 54, 339, 75, 39, 286, 62]   
+            ]);
+
+            var options = {
+                chart: {
+                    title: '',
+                    subtitle: '',
+                },
+                bars: 'vertical', // Required for Material Bar Charts.
+                // ここを 'horizontal' から 'vertical' に変更してみよう。
+                // isStacked: true
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
+    </script>
+    <p><div>このグラフからは、10年前と比べるとほぼすべての法令違反の項目で改善が見られることが分かります。どちらの年も運転操作不適、漫然運転、脇見運転、安全不確認といった違反が特に多く、これらはいずれも安全運転義務違反に該当する項目です。</div>
+    <div>全体的な死亡事故の件数は減少していますが、最近ではスマートフォンを操作しながらの「ながら運転」や、高齢者の運転ミスなどによる事故が問題になっています。データで見ると、実際にそういった違反による死亡事故が多くなっているので、法の整備、免許返納を進める</div></p>
+    <p><a href="https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&lid=000001198843" target="_blank">e-Stat　道路の交通に関する統計　交通事故統計</a></p>
+    <h2>交通事故による死者数（2017年）</h2>
+    <div id="drawChartJiko" style="width: 1200px; padding: 0; margin: 0; border: 0;"></div>
+    <p><a href="https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&lid=000001200070" target="_blank">e-Stat　道路の交通に関する統計　交通事故死者数について</a></p>
+    <h2>交通事故による死者数（人口10万人あたり）（2017年）</h2>
+    <div id="drawChartRuby" style="width: 1200px; padding: 0; margin: 0; border: 0;"></div>
+    <p><div>まず、上の図は2017年における交通事故の死者数を示したものです。愛知県の死者数が最も多く、他には東京圏、大阪圏、福岡県といった発展した地域の死者数が多くなっています。</div>
+    <div>次に、下の図は交通事故の死者数を人口10万人あたりで見たものです。これを見ると愛知県の10万人あたり死者数は他の地域と比べてそれほど多くなく、東京圏や大阪圏では非常に少なくなっています。</div>
+    <div>この2つの図からは、都市部では人口が多い分、交通事故による死者数も多くなり、反対にそれ以外の地域では、交通機関の整備が不十分でなく運転をする機会が増えることなどによって、死亡事故が起きる可能性が高くなるのではないかということが考えらます。</div></p>
+    <p><a href="https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&lid=000001200070" target="_blank">e-Stat　道路の交通に関する統計　交通事故死者数について</a></p>
+    <h2>人口における高齢者の割合（2015年）</h2>
+    <div id="drawChartPHP" style="width: 1200px; padding: 0; margin: 0; border: 0;"></div>
+    <p><div>これは人口における高齢者の割合を示した図です。この図を作成した理由は、交通事故被害者の中の高齢者の割合が他の年代に比べて高いことや、高齢者が起こした交通事故が度々話題になっていることから、高齢者の割合が高い地域では交通事故が起きる可能性が高くなるのではないかと考えたからです。</div>
+    <div>上の人口10万人あたりの死者数の図と見比べてみると、やや重なる部分もあるが大きな関連はないように思われる。</div></p>
+    <p><a href="https://resas.go.jp/population-composition/#/map/21/21604/2015/0/4.748938235832281/37.26117491127531/140.9863127437528" target="_blank">RESAS</a></p>
+    <script src="https://www.google.com/jsapi"></script>
+    <script>
+        // http://qiita.com/sadapon2008/items/deeb7cf017bcceecc9b5
+        // を引用し、修正を加えたもの
+
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1.0', {
+            'packages': ['geochart'],
+            'language': 'ja'
+        });
+
+        google.setOnLoadCallback(graphChart);
+
+
+
+        function graphChart() {
+            var data_jiko = google.visualization.arrayToDataTable(
+                [
+                    ['都道府県', '交通事故死者数（人）'],
+                    ['北海道', 148],
+                    ['青森', 42],
+                    ['岩手', 61],
+                    ['宮城', 51],
+                    ['秋田', 30],
+                    ['山形', 38],
+                    ['福島', 68],
+                    ['茨城', 143],
+                    ['栃木', 95],
+                    ['群馬', 67],
+                    ['埼玉', 177],
+                    ['千葉', 154],
+                    ['東京', 164],
+                    ['神奈川', 149],
+                    ['新潟', 85],
+                    ['富山', 37],
+                    ['石川', 34],
+                    ['福井', 46],
+                    ['山梨', 37],
+                    ['長野', 79],
+                    ['岐阜', 75],
+                    ['静岡', 128],
+                    ['愛知', 200],
+                    ['三重', 86],
+                    ['滋賀', 55],
+                    ['京都', 66],
+                    ['大阪', 150],
+                    ['兵庫', 161],
+                    ['奈良', 40],
+                    ['和歌山', 38],
+                    ['鳥取', 26],
+                    ['島根', 17],
+                    ['岡山', 97],
+                    ['広島', 91],
+                    ['山口', 79],
+                    ['徳島', 34],
+                    ['香川', 48],
+                    ['愛媛', 78],
+                    ['高知', 29],
+                    ['福岡', 139],
+                    ['佐賀', 36],
+                    ['長崎', 47],
+                    ['熊本', 73],
+                    ['大分', 44],
+                    ['宮崎', 42],
+                    ['鹿児島', 66],
+                    ['沖縄', 44]
+                ]
+            );
+
+            var data_ruby = google.visualization.arrayToDataTable(
+                [
+                    ['都道府県', '10万人あたり交通事故死者数（人）'],
+                    ['北海道', 2.77],
+                    ['青森', 3.25],
+                    ['岩手', 4.81],
+                    ['宮城', 2.19],
+                    ['秋田', 2.97],
+                    ['山形', 3.41],
+                    ['福島', 3.58],
+                    ['茨城', 4.92],
+                    ['栃木', 4.83],
+                    ['群馬', 3.41],
+                    ['埼玉', 2.43],
+                    ['千葉', 2.47],
+                    ['東京', 1.20],
+                    ['神奈川', 1.63],
+                    ['新潟', 3.72],
+                    ['富山', 3.49],
+                    ['石川', 2.95],
+                    ['福井', 5.88],
+                    ['山梨', 4.46],
+                    ['長野', 3.78],
+                    ['岐阜', 3.71],
+                    ['静岡', 3.47],
+                    ['愛知', 2.66],
+                    ['三重', 4.76],
+                    ['滋賀', 3.89],
+                    ['京都', 2.53],
+                    ['大阪', 1.70],
+                    ['兵庫', 2.92],
+                    ['奈良', 2.95],
+                    ['和歌山', 3.98],
+                    ['鳥取', 4.56],
+                    ['島根', 2.46],
+                    ['岡山', 5.07],
+                    ['広島', 3.21],
+                    ['山口', 5.67],
+                    ['徳島', 4.53],
+                    ['香川', 4.94],
+                    ['愛媛', 5.67],
+                    ['高知', 4.02],
+                    ['福岡', 2.72],
+                    ['佐賀', 4.35],
+                    ['長崎', 3.44],
+                    ['熊本', 4.11],
+                    ['大分', 3.79],
+                    ['宮崎', 3.83],
+                    ['鹿児島', 4.03],
+                    ['沖縄', 3.06]
+                ]
+            );
+
+            var data_php = google.visualization.arrayToDataTable(
+                [
+                    ['都道府県', '高齢者の割合（％）'],
+                    ['北海道', 29.1],
+                    ['青森', 30.1],
+                    ['岩手', 30.4],
+                    ['宮城', 25.7],
+                    ['秋田', 33.8],
+                    ['山形', 30.8],
+                    ['福島', 28.7],
+                    ['茨城', 26.8],
+                    ['栃木', 25.9],
+                    ['群馬', 27.6],
+                    ['埼玉', 24.8],
+                    ['千葉', 25.9],
+                    ['東京', 22.7],
+                    ['神奈川', 23.9],
+                    ['新潟', 29.9],
+                    ['富山', 30.5],
+                    ['石川', 27.9],
+                    ['福井', 28.6],
+                    ['山梨', 28.4],
+                    ['長野', 30.1],
+                    ['岐阜', 28.1],
+                    ['静岡', 27.8],
+                    ['愛知', 23.8],
+                    ['三重', 27.9],
+                    ['滋賀', 24.2],
+                    ['京都', 27.5],
+                    ['大阪', 26.1],
+                    ['兵庫', 27.1],
+                    ['奈良', 28.7],
+                    ['和歌山', 30.9],
+                    ['鳥取', 29.7],
+                    ['島根', 32.5],
+                    ['岡山', 28.7],
+                    ['広島', 27.5],
+                    ['山口', 32.1],
+                    ['徳島', 31.0],
+                    ['香川', 29.9],
+                    ['愛媛', 30.6],
+                    ['高知', 32.8],
+                    ['福岡', 25.9],
+                    ['佐賀', 27.7],
+                    ['長崎', 29.6],
+                    ['熊本', 28.8],
+                    ['大分', 30.4],
+                    ['宮崎', 29.5],
+                    ['鹿児島', 29.4],
+                    ['沖縄', 19.6]
+                ]
+            );
+
+            var option = {
+                region: 'JP',
+                resolution: 'provinces',
+                colorAxis: {
+                    colors: ['white', 'green']
+                },
+                backgroundColor: '#81d4fa',
+                datalessRegionColor: '#f8bbd0',
+                defaultColor: '#f5f5f5'
+            };
+
+            var graph_jiko = new google.visualization.GeoChart(document.getElementById('drawChartJiko'));
+            graph_jiko.draw(data_jiko, option);
+
+            var graph_ruby = new google.visualization.GeoChart(document.getElementById('drawChartRuby'));
+            graph_ruby.draw(data_ruby, option);
+
+            var graph_php = new google.visualization.GeoChart(document.getElementById('drawChartPHP'));
+            graph_php.draw(data_php, option);
+        }
+    </script>
+</body>
+
+</html>
